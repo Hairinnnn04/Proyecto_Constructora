@@ -1,0 +1,93 @@
+@{
+    ViewBag.Title = "Usuarios";
+}
+@{
+    var rol = ViewBag.Rol as string;
+}
+<div class="container mt-5">
+    <h2>Gestión de Usuarios</h2>
+    @if (rol == "Administrador")
+    {
+        <div class="row">
+            <div class="col-md-7">
+                <h4>Lista de Usuarios</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var u in ViewBag.Usuarios)
+                        {
+                            <tr>
+                                <td>@u.Id</td>
+                                <td>@u.Nombre</td>
+                                <td>@u.Email</td>
+                                <td>@u.RolId</td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning" onclick="editarUsuario(@u.Id, '@u.Nombre', '@u.Email', @u.RolId)">Editar</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-5">
+                <h4 id="form-title">Agregar Usuario</h4>
+                <form method="post" asp-action="AgregarUsuario" id="usuario-form">
+                    <input type="hidden" name="Id" id="usuario-id" />
+                    <div class="mb-2">
+                        <label>Nombre</label>
+                        <input type="text" name="Nombre" id="usuario-nombre" class="form-control" required />
+                    </div>
+                    <div class="mb-2">
+                        <label>Email</label>
+                        <input type="email" name="Email" id="usuario-email" class="form-control" required />
+                    </div>
+                    <div class="mb-2">
+                        <label>Rol</label>
+                        <select name="RolId" id="usuario-rol" class="form-control" required>
+                            @foreach (var r in ViewBag.Roles)
+                            {
+                                <option value="@r.Id">@r.Nombre</option>
+                            }
+                        </select>
+                    </div>
+                    <button type="submit" id="agregar-btn" class="btn btn-primary">Agregar</button>
+                    <button type="submit" formaction="@Url.Action("EditarUsuario", "Home")" id="editar-btn" class="btn btn-success d-none">Guardar Cambios</button>
+                    <button type="button" onclick="resetForm()" class="btn btn-secondary">Cancelar</button>
+                </form>
+            </div>
+        </div>
+        <script>
+        function editarUsuario(id, nombre, email, rolId) {
+            document.getElementById('form-title').innerText = 'Editar Usuario';
+            else
+            {
+                <div class="alert alert-warning">No tienes permisos para gestionar usuarios.</div>
+            }
+            document.getElementById('agregar-btn').classList.add('d-none');
+            document.getElementById('editar-btn').classList.remove('d-none');
+        }
+        function resetForm() {
+            document.getElementById('form-title').innerText = 'Agregar Usuario';
+            document.getElementById('usuario-id').value = '';
+            document.getElementById('usuario-nombre').value = '';
+            document.getElementById('usuario-email').value = '';
+            document.getElementById('usuario-rol').selectedIndex = 0;
+            document.getElementById('agregar-btn').classList.remove('d-none');
+            document.getElementById('editar-btn').classList.add('d-none');
+        }
+        </script>
+    }
+    else
+    {
+        <div class="alert alert-warning">No tienes permisos para gestionar usuarios.</div>
+    }
+    <a href="@Url.Action("Dashboard", "Home")" class="btn btn-secondary mt-3">Volver</a>
+</div>

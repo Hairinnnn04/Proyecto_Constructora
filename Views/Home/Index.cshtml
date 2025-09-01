@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <span class="display-1 fw-bold text-success"><i class="bi bi-building"></i></span>
+            <h1 class="fw-bold mt-2" style="letter-spacing:2px; color:#6d4c41;">Bienvenido a Constructora Hernandez</h1>
+            <p class="lead text-muted">Gestiona materiales, proyectos y usuarios en un entorno profesional y moderno.</p>
+        </div>
+    </div>
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-lg h-100">
+                <div class="card-body text-center">
+                    <span class="display-4 text-warning"><i class="bi bi-box-seam"></i></span>
+                    <h4 class="fw-bold mt-3">Materiales</h4>
+                    <p class="text-muted">Consulta y administra el inventario de materiales de construcción.</p>
+                    <a asp-controller="Home" asp-action="Materiales" class="btn btn-outline-success rounded-pill px-4"><i class="bi bi-arrow-right-circle"></i> Ver materiales</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-lg h-100">
+                <div class="card-body text-center">
+                    <span class="display-4 text-info"><i class="bi bi-clipboard-data"></i></span>
+                    <h4 class="fw-bold mt-3">Proyectos</h4>
+                    <p class="text-muted">Visualiza y gestiona los proyectos activos y finalizados.</p>
+                    <a asp-controller="Home" asp-action="Proyectos" class="btn btn-outline-primary rounded-pill px-4"><i class="bi bi-arrow-right-circle"></i> Ver proyectos</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-lg h-100">
+                <div class="card-body text-center">
+                    <span class="display-4 text-danger"><i class="bi bi-people"></i></span>
+                    <h4 class="fw-bold mt-3">Usuarios</h4>
+                    <p class="text-muted">Administra los usuarios y roles del sistema.</p>
+                    <a asp-controller="Home" asp-action="Usuarios" class="btn btn-outline-warning rounded-pill px-4"><i class="bi bi-arrow-right-circle"></i> Ver usuarios</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

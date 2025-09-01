@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Constructora Hernandez</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/miprimerproyecto.styles.css" asp-append-version="true" />
+</head>
+
+<body style="background: url('https://www.transparenttextures.com/patterns/brick-wall.png') repeat; min-height:100vh;">
+    <div class="d-flex" style="min-height:100vh;">
+        <nav class="bg-dark text-white p-4" style="width:260px; min-height:100vh; box-shadow: 2px 0 12px rgba(60,60,60,0.08);">
+            <div class="mb-5 text-center">
+                <span class="display-6 fw-bold text-success"><i class="bi bi-building"></i></span>
+                <h2 class="fw-bold mt-2" style="letter-spacing:2px; color:#ffd54f;">Constructora</h2>
+            </div>
+            <ul class="nav flex-column gap-3">
+                <li class="nav-item">
+                    <a class="nav-link text-white fs-5" asp-area="" asp-controller="Home" asp-action="Index"><i class="bi bi-house-door me-2"></i>Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white fs-5" asp-area="" asp-controller="Home" asp-action="Materiales"><i class="bi bi-box-seam me-2"></i>Materiales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white fs-5" asp-area="" asp-controller="Home" asp-action="Proyectos"><i class="bi bi-clipboard-data me-2"></i>Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white fs-5" asp-area="" asp-controller="Home" asp-action="Privacy"><i class="bi bi-shield-lock me-2"></i>Privacidad</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="flex-grow-1 d-flex flex-column" style="min-height:100vh;">
+            <main role="main" class="flex-grow-1 p-5" style="flex:1 0 auto;">
+                @RenderBody()
+            </main>
+            <footer class="footer text-white py-4 px-5 mt-auto" style="background:linear-gradient(90deg,#4e342e,#8d6e63);border-top:3px solid #388e3c; position:relative; width:100%;">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>&copy; 2025 - Constructora Hernandez</span>
+                    <a class="text-warning" asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

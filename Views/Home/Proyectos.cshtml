@@ -1,0 +1,171 @@
+@{
+    ViewBag.Title = "Proyectos";
+    var rol = ViewBag.Rol as string;
+    var proyectos = ViewBag.Proyectos as IEnumerable<dynamic>;
+    var materiales = ViewBag.Materiales as IEnumerable<dynamic>;
+    var detalles = ViewBag.Detalles as IEnumerable<dynamic>;
+    var detallesJson = Newtonsoft.Json.JsonConvert.SerializeObject(detalles);
+    var materialesJson = Newtonsoft.Json.JsonConvert.SerializeObject(materiales);
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <span class="display-3 fw-bold text-success"><i class="bi bi-building"></i></span>
+            <h1 class="fw-bold mt-2" style="letter-spacing:2px; color:#6d4c41;">Panel de Proyectos</h1>
+            <p class="lead text-muted">Administra y visualiza los proyectos de la constructora con un diseño renovado.</p>
+        </div>
+    </div>
+    @if (string.IsNullOrEmpty(rol))
+    {
+        <div class="alert alert-warning mt-5 text-center">
+            Debes iniciar sesión para acceder a esta sección.<br />
+            <a href="@Url.Action("Login", "Account")" class="btn btn-success mt-3 rounded-pill px-4"><i class="bi bi-person-circle"></i> Iniciar sesión</a>
+        </div>
+    }
+    else if (rol == "Administrador" || rol == "Vendedor")
+    {
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-header d-flex justify-content-between align-items-center" style="background:linear-gradient(90deg,#388e3c,#6d4c41);color:#fff;">
+                        <h4 class="mb-0"><i class="bi bi-clock-history me-2"></i>Historial de Proyectos</h4>
+                        <button class="btn btn-primary btn-sm rounded-pill px-3" onclick="location.reload()"><i class="bi bi-arrow-clockwise"></i> Actualizar</button>
+                    </div>
+                    <div class="card-body p-0">
+                        @if (proyectos == null || !proyectos.Any())
+                        {
+                            <div class="alert alert-info m-4">No se han registrado proyectos.</div>
+                        }
+                        else
+                        {
+                            <table class="table table-hover align-middle mb-0">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th class="text-center">ID</th>
+                                        <th class="text-center">Responsable</th>
+                                        <th class="text-center">Fecha Inicio</th>
+                                        <th class="text-center">Fecha Fin</th>
+                                        <th class="text-center">Presupuesto</th>
+                                        <th class="text-center">Detalle</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var p in proyectos)
+                                    {
+                                        <tr>
+                                            <td class="text-center fw-bold">@p.Id</td>
+                                            <td class="text-center">@p.UsuarioId</td>
+                                            <td class="text-center">@p.FechaInicio.ToString("dd/MM/yyyy")</td>
+                                            <td class="text-center">@p.FechaFin.ToString("dd/MM/yyyy")</td>
+                                            <td class="text-center text-success fw-bold">$@p.Presupuesto</td>
+                                            <td class="text-center">
+                                                <button class="btn btn-outline-success btn-sm rounded-pill px-3" type="button" onclick="mostrarDetalle(@p.Id)"><i class="bi bi-eye"></i> Detalle</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-header" style="background:linear-gradient(90deg,#8bc34a,#388e3c);color:#fff;">
+                        <h4 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Registrar Proyecto</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" asp-action="RegistrarProyecto" id="proyecto-form">
+                            <div id="materiales-list">
+                                <div class="material-item mb-3 d-flex align-items-center gap-2">
+                                    <select name="MaterialId" class="form-select w-50" required>
+                                        <option value="">Selecciona material</option>
+                                        @if (materiales != null)
+                                        {
+                                            foreach (var m in materiales)
+                                            {
+                                                <option value="@m.Id" data-precio="@m.Precio">@m.Nombre ($@m.Precio)</option>
+                                            }
+                                        }
+                                    </select>
+                                    <input type="number" name="Cantidad" class="form-control w-25" placeholder="Cantidad" min="1" required />
+                                    <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-2" onclick="eliminarMaterial(this)"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-warning mb-2 rounded-pill px-3" onclick="agregarMaterial()"><i class="bi bi-plus"></i> Agregar material</button>
+                            <button type="submit" class="btn btn-success w-100 fw-bold rounded-pill px-3"><i class="bi bi-check-circle"></i> Registrar Proyecto</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal único para mostrar detalles -->
+        <div class="modal fade" id="modalDetalleProyecto" tabindex="-1" aria-labelledby="modalDetalleProyectoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="modalDetalleProyectoLabel"><i class="bi bi-receipt me-2"></i>Detalle de Proyecto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered table-striped mb-0">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>Material</th>
+                                    <th>Cantidad</th>
+                                    <th>Costo Unitario</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detalleProyectoBody">
+                                <!-- Aquí se insertan los detalles dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var detalles = @Html.Raw(detallesJson);
+            var materiales = @Html.Raw(materialesJson);
+            function mostrarDetalle(proyectoId) {
+                var detallesProyecto = detalles.filter(function(d) { return d.ProyectoId === proyectoId; });
+                var tbody = document.getElementById('detalleProyectoBody');
+                tbody.innerHTML = '';
+                if (detallesProyecto.length > 0) {
+                    detallesProyecto.forEach(function(d) {
+                        var material = materiales.find(function(m) { return m.Id === d.MaterialId; });
+                        var nombre = material ? material.Nombre : '';
+                        var fila = `<tr><td>${nombre}</td><td>${d.Cantidad}</td><td>$${d.CostoUnitario}</td></tr>`;
+                        tbody.innerHTML += fila;
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted">No hay detalles para este proyecto.</td></tr>';
+                }
+                var modal = new bootstrap.Modal(document.getElementById('modalDetalleProyecto'));
+                modal.show();
+            }
+            function agregarMaterial() {
+                var materialesList = document.getElementById('materiales-list');
+                var item = materialesList.firstElementChild.cloneNode(true);
+                item.querySelector('select').selectedIndex = 0;
+                item.querySelector('input').value = '';
+                materialesList.appendChild(item);
+            }
+            function eliminarMaterial(btn) {
+                var item = btn.parentElement;
+                var materialesList = document.getElementById('materiales-list');
+                if (materialesList.children.length > 1) {
+                    materialesList.removeChild(item);
+                }
+            }
+        </script>
+    }
+    else
+    {
+        <div class="alert alert-warning mt-5">No tienes permisos para gestionar proyectos.</div>
+    }
+</div>
