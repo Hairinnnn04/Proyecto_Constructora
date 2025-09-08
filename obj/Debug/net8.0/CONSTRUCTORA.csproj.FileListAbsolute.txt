@@ -152,3 +152,4 @@ C:\xampp\htdocs\CONSTRUCTORA\obj\Debug\net8.0\refint\CONSTRUCTORA.dll
 C:\xampp\htdocs\CONSTRUCTORA\obj\Debug\net8.0\CONSTRUCTORA.pdb
 C:\xampp\htdocs\CONSTRUCTORA\obj\Debug\net8.0\CONSTRUCTORA.genruntimeconfig.cache
 C:\xampp\htdocs\CONSTRUCTORA\obj\Debug\net8.0\ref\CONSTRUCTORA.dll
+C:\xampp\htdocs\CONSTRUCTORA\obj\Debug\net8.0\CONSTRUCTORA.sourcelink.json
