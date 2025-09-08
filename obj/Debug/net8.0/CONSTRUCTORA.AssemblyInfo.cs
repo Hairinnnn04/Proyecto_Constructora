@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CONSTRUCTORA")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cfa9df4f74915d8c3b0d7be67fd40c9447a2bed4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+79f2c0a7467d37515f3c79a7bbb6be2415d376a7")]
 [assembly: System.Reflection.AssemblyProductAttribute("CONSTRUCTORA")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CONSTRUCTORA")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
