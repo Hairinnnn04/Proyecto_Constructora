@@ -9,21 +9,7 @@
 }
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <div class="container py-5">
-    <div class="row mb-4">
-        <div class="col-12 text-center">
-            <span class="display-3 fw-bold text-success"><i class="bi bi-building"></i></span>
-            <h1 class="fw-bold mt-2" style="letter-spacing:2px; color:#6d4c41;">Panel de Proyectos</h1>
-            <p class="lead text-muted">Administra y visualiza los proyectos de la constructora con un diseño renovado.</p>
-        </div>
-    </div>
-    @if (string.IsNullOrEmpty(rol))
-    {
-        <div class="alert alert-warning mt-5 text-center">
-            Debes iniciar sesión para acceder a esta sección.<br />
-            <a href="@Url.Action("Login", "Account")" class="btn btn-success mt-3 rounded-pill px-4"><i class="bi bi-person-circle"></i> Iniciar sesión</a>
-        </div>
-    }
-    else if (rol == "Administrador" || rol == "Vendedor")
+    @if (rol == "Administrador" || rol == "Vendedor")
     {
         <div class="row g-4">
             <div class="col-lg-7">

@@ -1,0 +1,38 @@
+@{
+    ViewBag.Title = "Recomendaciones";
+}
+<div class="container mt-5">
+    <h2 class="mb-4">Obtener Recomendaciones con Gemini</h2>
+    <div class="mb-3">
+        <label for="prompt" class="form-label">¿Qué quieres hacer?</label>
+        <textarea id="prompt" class="form-control" rows="4" placeholder="Ejemplo: ¿Qué quieres hacer?" required></textarea>
+    </div>
+</div>
+    <button type="button" class="btn btn-primary" onclick="generarRecomendacion()">Obtener recomendaciones</button>
+    <div id="resultado" class="alert alert-info d-none mt-4"></div>
+</div>
+<script>
+function generarRecomendacion() {
+    var prompt = document.getElementById('prompt').value;
+    if (!prompt.trim()) {
+        document.getElementById('resultado').classList.add('d-none');
+        return;
+    }
+    document.getElementById('resultado').classList.remove('d-none');
+    document.getElementById('resultado').innerHTML = 'Generando recomendaciones...';
+    fetch('/Home/GenerarPresupuesto', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'prompt=' + encodeURIComponent(prompt)
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('resultado').innerHTML = data.recomendacion;
+    })
+    .catch(() => {
+        document.getElementById('resultado').innerHTML = 'No se pudo generar la recomendación.';
+    });
+}
+</script>

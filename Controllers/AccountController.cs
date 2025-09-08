@@ -10,7 +10,9 @@ namespace miprimerproyecto.Controllers
             return View();
         }
 
-        [HttpPost]
+        // Método para obtener ubicación por IP usando ip-api.com
+    // ...sin método de geolocalización...
+
         [HttpPost]
     public IActionResult Login(string email, string password, [FromServices] ConstructoraDbContext db)
         {
@@ -28,6 +30,11 @@ namespace miprimerproyecto.Controllers
             }
             ViewBag.Error = "Usuario o contraseña incorrectos";
             return View();
+        }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
         }
     }
 }

@@ -31,6 +31,10 @@
                                 <td>@u.RolId</td>
                                 <td>
                                     <button class="btn btn-sm btn-warning" onclick="editarUsuario(@u.Id, '@u.Nombre', '@u.Email', @u.RolId)">Editar</button>
+                                    <form method="post" asp-action="EliminarUsuario" asp-controller="Home" style="display:inline" onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?');">
+                                        <input type="hidden" name="id" value="@u.Id" />
+                                        <button type="submit" class="btn btn-sm btn-danger ms-1">Eliminar</button>
+                                    </form>
                                 </td>
                             </tr>
                         }
@@ -39,6 +43,7 @@
             </div>
             <div class="col-md-5">
                 <h4 id="form-title">Agregar Usuario</h4>
+                <a href="/Home/Index" class="btn btn-secondary mb-3">Volver</a>
                 <form method="post" asp-action="AgregarUsuario" id="usuario-form">
                     <input type="hidden" name="Id" id="usuario-id" />
                     <div class="mb-2">
@@ -48,6 +53,10 @@
                     <div class="mb-2">
                         <label>Email</label>
                         <input type="email" name="Email" id="usuario-email" class="form-control" required />
+                    </div>
+                    <div class="mb-2">
+                        <label>Contraseña</label>
+                        <input type="password" name="Password" id="usuario-password" class="form-control" required />
                     </div>
                     <div class="mb-2">
                         <label>Rol</label>
@@ -67,10 +76,10 @@
         <script>
         function editarUsuario(id, nombre, email, rolId) {
             document.getElementById('form-title').innerText = 'Editar Usuario';
-            else
-            {
-                <div class="alert alert-warning">No tienes permisos para gestionar usuarios.</div>
-            }
+            document.getElementById('usuario-id').value = id;
+            document.getElementById('usuario-nombre').value = nombre;
+            document.getElementById('usuario-email').value = email;
+            document.getElementById('usuario-rol').value = rolId;
             document.getElementById('agregar-btn').classList.add('d-none');
             document.getElementById('editar-btn').classList.remove('d-none');
         }
